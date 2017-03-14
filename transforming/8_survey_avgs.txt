@@ -1,1 +1,0 @@
-CREATE TABLE survey_avgs AS SELECT Hospital_Name, avg(Overall_Achievement) AS overall_achievement, avg(Overall_Improvement) AS overall_improvement, avg(overall_dimension) AS overall_dimension, avg(HCAHPS_Base_Score) AS hcahps_base_score, avg(HCAHPS_Consistency_Score) AS hcahps_consistency_score FROM survey_master GROUP BY hospital_name;

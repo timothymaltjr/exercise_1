@@ -1,0 +1,27 @@
+This query pulls data from two files - the averaged "Score" field in the effectivecare - hospitals.csv file and the average "Score" field in the readmissions - hospital.csv file.  The effective care score is seen as a beneficial score, whereas the readmission scores are viewed as the opposite.
+
+The scores are a range from zero to one hundred (as a percentage) with the Emergency Services filtered out.  The Emergency Services were not on a 0-100 percentage scale and would alter the averages in a wrongful way.
+
+The query groups the hospital name with its effective care score, and since the top 10 all had an effective care score of 100, a WHERE clause was used.  The readmission score is an assumed ding against the hospital, so these scores were sorted in an ascending order, with the lowest scores as the most beneficial to this analysis.
+
+If we wanted to expand this analysis, we could take a few different paths.  First would be the diversity of services provided, and a second option would be to fold back in the emergency services.  Since this question was fairly generic, I kept the analysis as simple as possible.  The data provided though would be able to add these factors if desired.
+
+
+Hospital Name						Eff. Score	Readmin Score
+NOVANT HEALTH HAYMARKET MEDICAL CENTER  		100.0   	NULL
+PAUL OLIVER MEMORIAL HOSPITAL   			100.0   	NULL
+GEORGE C GRAPE COMMUNITY HOSPITAL      			100.0   	NULL
+SANFORD MEDICAL CENTER WHEATON  			100.0   	NULL
+UNIV OF MD REHABILITATION &  ORTHOPAEDIC INSTITUTE      100.0   	NULL
+ST LUKE'S WOOD RIVER MEDICAL CENTER     		100.0   	11.5
+MEMORIAL HOSPITAL OF CONVERSE COUNTY    		100.0   	13.15
+MILLINOCKET REGIONAL HOSPITAL   			100.0   	13.766666666666667
+GRAND JUNCTION VA MEDICAL CENTER        		100.0   	13.799999999999999
+MOAB REGIONAL HOSPITAL  				100.0   	13.866666666666667
+
+SELECT hospital_avgs.hospital_name, good_score, bad_score FROM hospital_avgs 
+FULL OUTER JOIN hospital_readmin_avgs 
+ON hospital_avgs.hospital_name = hospital_readmin_avgs.hospital_name 
+WHERE good_score = "100" 
+ORDER BY bad_score 
+LIMIT 10;

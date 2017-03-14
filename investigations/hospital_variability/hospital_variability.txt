@@ -1,0 +1,20 @@
+This query pulls data from the effective care - hospitals.csv file. The variance was calculated using the variance function and grouped by the measure's name in a descending manner.  The procedures with the largest variances are listed below.
+
+Measure Name								Variance
+Thrombolytic Therapy    						481.98665882944397
+Head CT results 							477.18888614639235
+Fibrinolytic Therapy Received Within 30 Minutes Of Hospital Arrival     352.6666666666667
+Fibrinolytic Therapy Received Within 30 Minutes of ED Arrival   	325.74632352941165
+Healthcare workers given influenza vaccination  			267.25866979161765
+Warfarin therapy discharge instructions 				265.78796126891007
+Venous thromboembolism prophylaxis      				232.78828961700816
+Stroke Education        						196.37153240873673
+Home Management Plan of Care Document   				161.7760416666667
+Immunization for influenza      					142.68029969125467
+
+SELECT measure_name, variance(score) AS variance 
+FROM effectivecare_master 
+WHERE score <> "Not Available" 
+GROUP BY measure_name 
+ORDER BY variance DESC 
+LIMIT 10;

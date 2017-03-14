@@ -1,0 +1,28 @@
+This was a fun query to run!  This pulls data from effective care - hospitals.csv as well as the hvbp_hcahps_05_28_2015.csv (the file that contains the patient survey results).  The data had to be transformed first so that the number of the survey result could be calculated, since the original value was "[score] out of [total]", which could not be aggregated as a number.
+
+When the data was sorted by effective score (from the effective care data file), the top survey results were "NULL".  The below table instead sorts the data descending by "Overall Achievement Points" score, so that the top results are shown.  It looks from this information that the top 10 hopitals, according to patient surveys, have a wide variability in its effective care score.  The range in this is over 16 percentage points.
+
+Hospital Name					Eff. Score		Achievement	Improve.	Dimension.	HCAHPS Base	HCAHPS Consist.
+WELLSPAN SURGERY AND REHABILITATION HOSPITAL    99.16666666666667       10.0		NULL		10.0		78.0		20.0
+BLACK HILLS SURGICAL HOSPITAL LLP       	98.25   		10.0		9.0		10.0		80.0		20.0
+SOUTHWESTERN REGIONAL MEDICAL CENTER    	92.07692307692308       10.0		0.0		10.0		59.0		20.0
+SOUTHERN SURGICAL HOSPITAL      		90.33333333333333       10.0		0.0		10.0		71.0		20.0
+NORTH CAROLINA SPECIALTY HOSPITAL       	99.66666666666667       10.0		9.0		10.0		78.0		20.0
+DUBLIN METHODIST HOSPITAL       		90.82758620689656       10.0		9.0		10.0		59.0		20.0
+SUTTER DAVIS HOSPITAL   			90.36   10.0    0.0     10.0		64.0		20.0
+AVERA HEART HOSPITAL OF SOUTH DAKOTA    	91.54545454545455       10.0		9.0		10.0		73.0		20.0
+BAILEY MEDICAL CENTER, LLC      		87.94117647058823       10.0		9.0		10.0		70.0		20.0
+MIDWESTERN REGION MED CENTER    		82.92857142857143       10.0		0.0		10.0		59.0		20.0
+
+SELECT hospital_avgs.Hospital_Name, 
+hospital_avgs.good_score, 
+overall_achievement, 
+overall_improvement, 
+overall_dimension, 
+hcahps_base_score, 
+hcahps_consistency_score
+FROM hospital_avgs
+LEFT JOIN survey_avgs 
+ON hospital_avgs.hospital_name = survey_avgs.hospital_name
+ORDER BY overall_achievement DESC 
+LIMIT 10;

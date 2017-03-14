@@ -1,0 +1,27 @@
+This is very similar to the "best hospitals" analysis, except the data is aggregated by state instead of by hospital name.
+
+This query pulls data from two files - the averaged "Score" field in the effectivecare - hospitals.csv file and the average "Score" field in the readmissions - hospital.csv file.  The effective care score is seen as a beneficial score, whereas the readmission scores are viewed as the opposite.
+
+The scores are a range from zero to one hundred (as a percentage) with the Emergency Services filtered out.  The Emergency Services were not on a 0-100 percentage scale and would alter the averages in a wrongful way.
+
+The query groups the state by its effective care score (descending), then with its respective readmission score.
+
+State	Eff. Score		Readmin. Score
+ME      91.54206896551725       13.963858695652187
+NE      91.11622554660529       14.052327746741158
+NH      91.08592321755027       13.700350877192978
+VT      91.01953125    		13.989610389610384
+WI      90.20380875202594       13.873135593220313
+VA      90.03004860804242       14.262132752992375
+MT      89.94787644787645       13.898976109215011
+HI      89.6470588235294        13.934482758620687
+NC      89.50604122245913       14.016652211621857
+FL      89.44855031267765       13.939612188365658
+
+
+SELECT state_avgs.state, good_score, bad_score 
+FROM state_avgs 
+FULL OUTER JOIN state_readmin_avgs 
+ON state_avgs.state = state_readmin_avgs.state 
+ORDER BY good_score DESC 
+LIMIT 10;
